@@ -1,4 +1,5 @@
 import prismaClient from "../../prisma/index";
+import { hash } from "bcryptjs";
 
 interface UserRequest {
   name: string;
@@ -24,12 +25,15 @@ class CreateUserService {
       throw new Error('Email já cadastrado');
     }
 
+    // Criptografar a senha
+    const passwordHash = await hash(password, 8);
+
     // Cadastrar o usuário no banco
     const user = await prismaClient.user.create({
       data: {
         name: name,
         email: email,
-        password: password
+        password: passwordHash
       },
       select: {
         id: true,

@@ -6,10 +6,9 @@ import {router} from './routes';
 
 const app = express();
 
-
-app.use(router);
 app.use(express.json());
-app.use(cors())
+app.use(cors());
+app.use(router);
 
 // Middleware para tratamento de erros
 app.use((err: Error, req: Request, res: Response, next: NextFunction)=>{
